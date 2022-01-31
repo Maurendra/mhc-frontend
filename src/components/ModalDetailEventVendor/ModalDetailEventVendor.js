@@ -53,6 +53,11 @@ export default ({ showModal, setShowModal, event, getEvents }) => {
     await getEvents();
   };
 
+  const formatDate = (dateData) => {
+    let date = new Date(JSON.parse(dateData));
+    return date.toLocaleDateString("en-US");
+  };
+
   return (
     <>
       {showModal ? (
@@ -82,16 +87,33 @@ export default ({ showModal, setShowModal, event, getEvents }) => {
                       Event Detail
                     </h1>
                   </div>
-                  <p className="text-sm text-neutral-600 text-justify mb-8">
-                    You need to request an access to download this file. We need
-                    to review your reason and usage of this document. We will
-                    notify the request process through registered email.
-                  </p>
-                  <div className="mb-6">
-                    <textarea
-                      className="w-full p-4 border-2 bg-neutral-50 rounded-lg text-neutral-600 text-sm"
-                      placeholder="Please fill this form"
-                    ></textarea>
+                  <div className="mb-8">
+                    <p className="text-sm text-neutral-600 text-justify mb-2">
+                      Event Name: {event.event_name}
+                    </p>
+                    <p className="text-sm text-neutral-600 text-justify mb-2">
+                      Vendor Name: {event.vendor_name}
+                    </p>
+                    <p className="text-sm text-neutral-600 text-justify mb-2">
+                      Proposed Date: {formatDate(event.proposed_date_1)},{" "}
+                      {formatDate(event.proposed_date_2)},{" "}
+                      {formatDate(event.proposed_date_3)}
+                    </p>
+                    <p className="text-sm text-neutral-600 text-justify mb-2">
+                      Confirmed date by vendor:
+                      {event.confirm_date
+                        ? formatDate(event.confirm_date)
+                        : "Not confirmed yet by the vendor"}
+                    </p>
+                    <p className="text-sm text-neutral-600 text-justify mb-2">
+                      Current Status: {event.status}
+                    </p>
+                    <p className="text-sm text-neutral-600 text-justify mb-2">
+                      Location: {event.location ? event.location : "-"}
+                    </p>
+                    <p className="text-sm text-neutral-600 text-justify mb-2">
+                      Note: {event.note ? event.note : "-"}
+                    </p>
                   </div>
                   <div className="flex space-x-4 items-end">
                     <div

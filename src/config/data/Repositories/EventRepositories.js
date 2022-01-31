@@ -43,6 +43,20 @@ const EventRepositories = {
       };
     }
   },
+  deleteEvent: async function (query = {}) {
+    try {
+      const response = await Provider.post("/events/delete", query);
+      return {
+        error: false,
+        data: response.data,
+      };
+    } catch (error) {
+      return {
+        error: true,
+        message: Provider.readError(error),
+      };
+    }
+  },
 };
 
 export default EventRepositories;

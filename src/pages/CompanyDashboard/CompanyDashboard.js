@@ -11,6 +11,7 @@ export default () => {
   const [showModalAdd, setShowModalAdd] = React.useState(false);
   const [showModalDetail, setShowModalDetail] = React.useState(false);
   const [events, setEvents] = React.useState([]);
+  const [event, setEvent] = React.useState(null);
   const { auth } = React.useContext(AuthContext);
 
   const getEvents = async () => {
@@ -37,6 +38,15 @@ export default () => {
   const formatDate = (dateData) => {
     let date = new Date(JSON.parse(dateData));
     return date.toLocaleDateString("en-US");
+  };
+
+  const deleteEvent = async (event) => {
+    let submittedData = {
+      id: event._id,
+    };
+
+    const res = await EventRepositories.deleteEvent(submittedData);
+    await getEvents();
   };
 
   return (
@@ -83,12 +93,21 @@ export default () => {
                   <td className="border px-8 py-4">
                     {formatDate(event.created_at)}
                   </td>
-                  <td className="border px-8 py-4">
+                  <td className="border px-8 py-4 flex space-x-2">
                     <div
-                      onClick={() => setShowModalDetail(!showModalDetail)}
+                      onClick={() => {
+                        setShowModalDetail(!showModalDetail);
+                        setEvent(event);
+                      }}
                       className="bg-blue-400 hover:bg-blue-800 text-white border-2 border-white rounded-lg py-2 px-4 cursor-pointer w-fit"
                     >
                       <p className="font-bold">View</p>
+                    </div>
+                    <div
+                      onClick={() => deleteEvent(event)}
+                      className="bg-red-400 hover:bg-red-800 text-white border-2 border-white rounded-lg py-2 px-4 cursor-pointer w-fit"
+                    >
+                      <p className="font-bold">Delete</p>
                     </div>
                   </td>
                 </tr>
@@ -97,11 +116,16 @@ export default () => {
           </tbody>
         </table>
       </div>
-      <ModalAddEvent showModal={showModalAdd} setShowModal={setShowModalAdd} />
+      <ModalAddEvent
+        showModal={showModalAdd}
+        setShowModal={setShowModalAdd}
+        getEvents={getEvents}
+      />
       <ModalDetailEventCompany
         showModal={showModalDetail}
         setShowModal={setShowModalDetail}
         getEvents={getEvents}
+        event={event}
       />
     </>
   );
