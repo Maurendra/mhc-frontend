@@ -123,7 +123,7 @@ export default ({ showModal, setShowModal, event, getEvents }) => {
                       }}
                       className="bg-green-800 border-2 border-neutral-600 rounded-full py-2 px-8 cursor-pointer w-fit"
                     >
-                      <p className="font-bold text-neutral-50">Approve</p>
+                      <p className="font-bold text-neutral-50">Approval</p>
                     </div>
 
                     <div
